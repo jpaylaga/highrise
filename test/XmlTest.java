@@ -1,9 +1,15 @@
 import org.junit.*;
 import java.util.*;
+import java.text.*;
 import java.io.File;
 import play.test.*;
 import models.*;
 import models.xml.*;
+import javax.ws.rs.client.*;
+import javax.ws.rs.core.MediaType;
+import org.simpleframework.xml.*;
+import org.simpleframework.xml.core.*;
+import org.simpleframework.xml.transform.*;
 
 public class XmlTest extends UnitTest {
 
@@ -174,5 +180,101 @@ public class XmlTest extends UnitTest {
         People people = new People("array");
         people.addPerson(person);
         assertEquals(1, people.getPersons().size());
+    }
+
+    @Test
+    public void createClassesFromXmlTest() {
+
+        // Request to API
+        Client client = ClientBuilder.newClient();
+        String entity = client.target("https://joshuapaylaga.highrisehq.com")
+                        .path("people.xml")
+                        .request(MediaType.APPLICATION_XML)
+                        .header("authorization", "Basic MmI2N2Y5MDJmZDc1NjZlNWMxY2ZkZWNjNDk2OWFhOTg6WA==")
+                        .get(String.class);
+
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        RegistryMatcher matcher = new RegistryMatcher();
+        matcher.bind(Date.class, new DateFormatTransformer(format));
+        People people = null;
+
+        Serializer serializer = new Persister(matcher);
+        try {
+            people = serializer.read(People.class, entity);
+        } catch (Exception e) {
+            System.out.println(e);
+            return;
+        }
+
+        assertEquals(2, people.getPersons().size());
+
+        Person person1 = people.getPersons().get(0);
+        Person person2 = people.getPersons().get(1);
+
+        // Person 1
+        assertEquals(267717456, person1.getPersonId());
+        assertEquals(1233658, person1.getAuthorId());
+        assertEquals(0, person1.getCompanyId());
+        assertEquals(0, person1.getOwnerId());
+        assertEquals(0, person1.getGroupId());
+        assertEquals("Marron Christopher", person1.getFirstName());
+        assertEquals("Afable", person1.getLastName());
+        assertNull(person1.getTitle());
+        assertNull(person1.getCompanyName());
+        assertNull(person1.getBackground());
+        assertEquals("Everyone", person1.getVisibleTo());
+        assertNull(person1.getLinkedinUrl());
+        assertEquals("https://secure.highrisehq.com/avatar_proxy/eJxj4Yhmz2Tm2siayRLA_ZUfABY4A2c|8d7c0616420cf91fdd703126cd9f1c021fa6c475", person1.getAvatarUrl());
+        assertEquals(2016, person1.getCreatedAt().getYear() + 1900);
+        assertEquals(8, person1.getCreatedAt().getMonth() + 1);
+        assertEquals(13, person1.getCreatedAt().getDate());
+        assertEquals(8, person1.getCreatedAt().getHours());
+        assertEquals(18, person1.getCreatedAt().getMinutes());
+        assertEquals(32, person1.getCreatedAt().getSeconds());
+        assertEquals(2016, person1.getUpdatedAt().getYear() + 1900);
+        assertEquals(8, person1.getUpdatedAt().getMonth() + 1);
+        assertEquals(19, person1.getUpdatedAt().getDate());
+        assertEquals(6, person1.getUpdatedAt().getHours());
+        assertEquals(49, person1.getUpdatedAt().getMinutes());
+        assertEquals(58, person1.getUpdatedAt().getSeconds());
+        assertEquals(0, person1.getContactData().getInstantMessengers().size());
+        assertEquals(0, person1.getContactData().getPhoneNumbers().size());
+        assertEquals(0, person1.getContactData().getEmailAddresses().size());
+        assertEquals(0, person1.getContactData().getTwitterAccounts().size());
+        assertEquals(0, person1.getContactData().getAddresses().size());
+        assertEquals(0, person1.getContactData().getWebAddresses().size());
+
+        // Person 2
+        assertEquals(267603714, person2.getPersonId());
+        assertEquals(1233658, person2.getAuthorId());
+        assertEquals(267603715, person2.getCompanyId());
+        assertEquals(0, person2.getOwnerId());
+        assertEquals(0, person2.getGroupId());
+        assertEquals("Kris Ann", person2.getFirstName());
+        assertEquals("Bachinela", person2.getLastName());
+        assertEquals("Student", person2.getTitle());
+        assertEquals("Misamis University", person2.getCompanyName());
+        assertEquals("My girlfriend.", person2.getBackground());
+        assertEquals("Everyone", person2.getVisibleTo());
+        assertEquals("https://ph.linkedin.com/in/joshua-paylaga-76959b6b", person2.getLinkedinUrl());
+        assertEquals("https://secure.highrisehq.com/avatar_proxy/eJxj4Yhmz2Tm2siaycLk_5kfABXIA1s|e1792c478abd560724a6e44ca4ecb2725c0ec869", person2.getAvatarUrl());
+        assertEquals(2016, person1.getCreatedAt().getYear() + 1900);
+        assertEquals(8, person2.getCreatedAt().getMonth() + 1);
+        assertEquals(11, person2.getCreatedAt().getDate());
+        assertEquals(11, person2.getCreatedAt().getHours());
+        assertEquals(46, person2.getCreatedAt().getMinutes());
+        assertEquals(19, person2.getCreatedAt().getSeconds());
+        assertEquals(2016, person2.getUpdatedAt().getYear() + 1900);
+        assertEquals(8, person2.getUpdatedAt().getMonth() + 1);
+        assertEquals(19, person2.getUpdatedAt().getDate());
+        assertEquals(6, person2.getUpdatedAt().getHours());
+        assertEquals(17, person2.getUpdatedAt().getMinutes());
+        assertEquals(51, person2.getUpdatedAt().getSeconds());
+        assertEquals(1, person2.getContactData().getInstantMessengers().size());
+        assertEquals(1, person2.getContactData().getPhoneNumbers().size());
+        assertEquals(1, person2.getContactData().getEmailAddresses().size());
+        assertEquals(1, person2.getContactData().getTwitterAccounts().size());
+        assertEquals(1, person2.getContactData().getAddresses().size());
+        assertEquals(1, person2.getContactData().getWebAddresses().size());
     }
 }
