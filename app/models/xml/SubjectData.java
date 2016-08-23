@@ -18,22 +18,38 @@ public class SubjectData {
     private String value;
 
     public SubjectData(int id, int subjectFieldId, String subjectFieldLabel, String value) {
-        this.id                = id;
-        this.subjectFieldId    = subjectFieldId;
-        this.subjectFieldLabel = subjectFieldLabel;
-        this.value             = value;
+        this.setId(id);
+        this.setSubjectFieldId(subjectFieldId);
+        this.setSubjectFieldLabel(subjectFieldLabel);
+        this.setValue(value);
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {
         return this.id;
     }
 
+    public void setSubjectFieldId(int subjectFieldId) {
+        this.subjectFieldId = subjectFieldId;
+    }
+
     public int getSubjectFieldId() {
         return this.subjectFieldId;
     }
 
+    public void setSubjectFieldLabel(String subjectFieldLabel) {
+        this.subjectFieldLabel = subjectFieldLabel;
+    }
+
     public String getSubjectFieldLabel() {
         return this.subjectFieldLabel;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public String getValue() {

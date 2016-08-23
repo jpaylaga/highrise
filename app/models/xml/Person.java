@@ -91,47 +91,6 @@ public class Person {
         this.setContactData(contactData);
     }
 
-    public Person(
-        int               personId,
-        int               authorId,
-        int               companyId,
-        int               ownerId,
-        int               groupId,
-        String            firstName,
-        String            lastName,
-        String            title,
-        String            companyName,
-        String            background,
-        String            visibleTo,
-        String            linkedinUrl,
-        String            avatarUrl,
-        String            createdAt,
-        String            updatedAt,
-        ContactData       contactData,
-        List<Tag>         tags,
-        List<SubjectData> subjectDatas
-    ) {
-        this.tags         = tags;
-        this.subjectDatas = subjectDatas;
-
-        this.setPersonId(personId);
-        this.setAuthorId(authorId);
-        this.setCompanyId(companyId);
-        this.setOwnerId(ownerId);
-        this.setGroupId(groupId);
-        this.setFirstName(firstName);
-        this.setLastName(lastName);
-        this.setTitle(title);
-        this.setCompanyName(companyName);
-        this.setBackground(background);
-        this.setVisibleTo(visibleTo);
-        this.setLinkedinUrl(linkedinUrl);
-        this.setAvatarUrl(avatarUrl);
-        this.setCreatedAt(createdAt);
-        this.setUpdatedAt(updatedAt);
-        this.setContactData(contactData);
-    }
-
     public void setPersonId(int personId) {
         this.personId = personId;
     }

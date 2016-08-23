@@ -32,22 +32,6 @@ public class ContactData {
         this.webAddresses      = new ArrayList<WebAddress>();
     }
 
-    public ContactData(
-        List<InstantMessenger> instantMessengers,
-        List<PhoneNumber>      phoneNumbers,
-        List<EmailAddress>     emailAddresses,
-        List<TwitterAccount>   twitterAccounts,
-        List<Address>          addresses,
-        List<WebAddress>       webAddresses
-    ) {
-        this.instantMessengers = instantMessengers;
-        this.phoneNumbers      = phoneNumbers;
-        this.emailAddresses    = emailAddresses;
-        this.twitterAccounts   = twitterAccounts;
-        this.addresses         = addresses;
-        this.webAddresses      = webAddresses;
-    }
-
     public void addInstantMessenger(InstantMessenger instantMessenger) {
         this.instantMessengers.add(instantMessenger);
     }

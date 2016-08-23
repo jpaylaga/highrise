@@ -14,12 +14,7 @@ public class People {
 
     public People(String type) {
         this.persons = new ArrayList<Person>();
-        this.type    = type;
-    }
-
-    public People(List<Person> persons, String type) {
-        this.persons = persons;
-        this.type    = type;
+        this.setType(type);
     }
 
     public void addPerson(Person person) {
@@ -28,6 +23,10 @@ public class People {
 
     public List<Person> getPersons() {
         return this.persons;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getType() {
