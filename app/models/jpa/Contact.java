@@ -11,31 +11,34 @@ public class Contact extends Model {
     private String firstName;
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String companyName;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String background;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String linkedinUrl;
 
-    @Column(nullable = false)
-    private String instantMessenger;
+    @Column(nullable = true)
+    private String instantMessengerProtocol;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
+    private String instantMessengerAddress;
+
+    @Column(nullable = true)
     private String emailAddress;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String twitterAccount;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String address;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String webAddress;
 
     private Date createdAt;
@@ -96,12 +99,28 @@ public class Contact extends Model {
         return this.linkedinUrl;
     }
 
-    public void setInstantMessenger(String instantMessenger) {
-        this.instantMessenger = instantMessenger;
+    public void setInstantMessengerProtocol(String instantMessengerProtocol) {
+        this.instantMessengerProtocol = instantMessengerProtocol;
     }
 
-    public String getInstantMessenger() {
-        return this.instantMessenger;
+    public String getInstantMessengerProtocol() {
+        return this.instantMessengerProtocol;
+    }
+
+    public void setInstantMessengerAddress(String instantMessengerAddress) {
+        this.instantMessengerAddress = instantMessengerAddress;
+    }
+
+    public String getInstantMessengerAddress() {
+        return this.instantMessengerAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public String getEmailAddress() {
+        return this.emailAddress;
     }
 
     public void setTwitterAccount(String twitterAccount) {
