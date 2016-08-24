@@ -41,10 +41,15 @@ public class Contact extends Model {
     @Column(nullable = true)
     private String webAddress;
 
+    @ManyToMany(cascade=CascadeType.PERSIST)
+    private Set<Tag> tags;
+
     private Date createdAt;
     private Date updatedAt;
 
     public Contact(String firstName, String lastName, Date createdAt, Date updatedAt) {
+        this.tags = new TreeSet<Tag>();
+
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setCreatedAt(createdAt);
@@ -161,5 +166,19 @@ public class Contact extends Model {
 
     public Date getUpdatedAt() {
         return this.updatedAt;
+    }
+
+    public void addTag(String tag) {
+        this.getTags().add(Tag.findOrCreateByName(tag));
+    }
+
+    public Set<Tag> getTags() {
+        return this.tags;
+    }
+
+    public static List<Contact> findTaggedWith(String tag) {
+        return Contact.find(
+            "select distinct c from Contact c join c.tags as t where t.name = (:tag)"
+        ).bind("tag", tag).fetch();
     }
 }

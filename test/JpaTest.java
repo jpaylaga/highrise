@@ -76,4 +76,39 @@ public class JpaTest extends UnitTest {
         assertNotNull(retTag);
         assertEquals(tag.getName(), retTag.getName());
     }
+
+    @Test
+    public void addTagsToContactTest() {
+        Date currTime = new Date();
+        Contact contact = new Contact("Joshua", "Paylaga", currTime, currTime);
+        contact.addTag("personal");
+        contact.save();
+
+        Tag tag = Tag.find("byName", "personal").first();
+        assertNotNull(tag);
+        assertEquals("personal", tag.getName());
+    }
+
+    @Test
+    public void findContactsWithTagTest() {
+        Date currTime = new Date();
+        Contact contact1 = new Contact("Joshua", "Paylaga", currTime, currTime);
+        Contact contact2 = new Contact("Kris Ann", "bachinela", currTime, currTime);
+
+        contact1.addTag("personal");
+        contact2.addTag("personal");
+        contact1.addTag("cs");
+
+        contact1.save();
+        contact2.save();
+
+        List<Contact> personal = Contact.findTaggedWith("personal");
+        List<Contact> cs = Contact.findTaggedWith("cs");
+
+        assertEquals(2, personal.size());
+        assertEquals(1, cs.size());
+
+        assertEquals(2, contact1.getTags().size());
+        assertEquals(1, contact2.getTags().size());
+    }
 }
