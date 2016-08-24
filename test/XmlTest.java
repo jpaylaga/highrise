@@ -243,6 +243,7 @@ public class XmlTest extends UnitTest {
         assertEquals(0, person1.getContactData().getTwitterAccounts().size());
         assertEquals(0, person1.getContactData().getAddresses().size());
         assertEquals(0, person1.getContactData().getWebAddresses().size());
+        // to be continued...
 
         // Person 2
         assertEquals(267603714, person2.getPersonId());
@@ -276,5 +277,6 @@ public class XmlTest extends UnitTest {
         assertEquals(1, person2.getContactData().getTwitterAccounts().size());
         assertEquals(1, person2.getContactData().getAddresses().size());
         assertEquals(1, person2.getContactData().getWebAddresses().size());
+        // to be continued...
     }
 }
