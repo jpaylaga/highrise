@@ -279,4 +279,28 @@ public class XmlTest extends UnitTest {
         assertEquals(1, person2.getContactData().getWebAddresses().size());
         // to be continued...
     }
+
+    @Test
+    public void createTagsClassesFromXML() {
+
+        // Request to API
+        Client client = ClientBuilder.newClient();
+        String entity = client.target("https://joshuapaylaga.highrisehq.com")
+                        .path("tags.xml")
+                        .request(MediaType.APPLICATION_XML)
+                        .header("authorization", "Basic MmI2N2Y5MDJmZDc1NjZlNWMxY2ZkZWNjNDk2OWFhOTg6WA==")
+                        .get(String.class);
+
+        Tags tags = null;
+        Serializer serializer = new Persister();
+        try {
+            tags = serializer.read(Tags.class, entity);
+        } catch (Exception e) {
+            System.out.println(e);
+            return;
+        }
+
+        assertNotNull(tags);
+        assertEquals(2, tags.getTags().size());
+    }
 }
