@@ -176,6 +176,15 @@ public class Contact extends Model {
         return this.tags;
     }
 
+    public List<Tag> getTagsAsList() {
+        List<Tag> tags = new ArrayList<Tag>();
+        for (Tag tag : this.getTags()) {
+            tags.add(tag);
+        }
+
+        return tags;
+    }
+
     public static List<Contact> findTaggedWith(String tag) {
         return Contact.find(
             "select distinct c from Contact c join c.tags as t where t.name = (:tag)"

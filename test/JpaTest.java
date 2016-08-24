@@ -134,5 +134,6 @@ public class JpaTest extends UnitTest {
         assertEquals("San Roque, Panaon, Misamis Oriental, 7205, Philippines", krisAnn.getAddress());
         assertEquals("http://krisannbachinela.blogspot.com/2015/11/my-autobiography-am-kris-ann-balt.html", krisAnn.getWebAddress());
         assertEquals(1, krisAnn.getTags().size());
+        assertEquals("personal", krisAnn.getTagsAsList().get(0).getName());
     }
 }
