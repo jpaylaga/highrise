@@ -24,7 +24,7 @@ public class Application extends Controller {
             }
             renderJSON(contacts.toJson("contacts"));
         } catch (Exception e) {
-            System.out.println(e);
+            renderJSON("{\"error\":\"" + e + "\"}");
         }
     }
 

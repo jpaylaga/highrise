@@ -17,24 +17,12 @@
     </form>
   </div>
   <div class="col-md-12 space">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>Title</th>
-          <th>Company name</th>
-          <th>Background</th>
-          <th>LinkedIn</th>
-          <th>Instant Messenger</th>
-          <th>Email</th>
-          <th>Twitter</th>
-          <th>Address</th>
-          <th>Website</th>
-        </tr>
-      </thead>
-      <tbody id="tag-results"></tbody>
-    </table>
+    <div class="alert alert-success hidden">
+      <strong>Success!</strong> You have retrieved <span id="tag-success">0</span> contact(s) from highrise and saved them to database. View retrieved contacts here.
+    </div>
+    <div class="alert alert-danger hidden">
+      <strong>Error!</strong> <span id="tag-error">Something went wrong.</span>
+    </div>
   </div>
 </div>
 
