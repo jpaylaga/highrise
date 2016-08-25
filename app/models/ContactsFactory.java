@@ -17,45 +17,39 @@ import models.JsonableArrayList;
 
 public class ContactsFactory {
 
-    public static JsonableArrayList<Contact> create(String username, String apiKey) {
+    public static JsonableArrayList<Contact> create(String username, String apiKey) throws Exception  {
+
         JsonableArrayList<Contact> contacts = new JsonableArrayList<Contact>();
-        try {
-            contacts = generateContactsFromEntity(
-                getEntityFromApi("people.xml", username, apiKey)
-            );
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        contacts = generateContactsFromEntity(
+            getEntityFromApi("people.xml", username, apiKey)
+        );
 
         return contacts;
     }
 
-    public static JsonableArrayList<Contact> createFromTag(String tag, String username, String apiKey) {
+    public static JsonableArrayList<Contact> createFromTag(String tag, String username, String apiKey) throws Exception {
+
         int tagId = 0;
         JsonableArrayList<Contact> contacts = new JsonableArrayList<Contact>();
 
         // Parse tags XML from highrise
-        try {
-            String entity1 = getEntityFromApi("tags.xml", username, apiKey);
-            Serializer serializer = new Persister();
-            Tags tags = serializer.read(Tags.class, entity1);
+        String entity1 = getEntityFromApi("tags.xml", username, apiKey);
+        Serializer serializer = new Persister();
+        Tags tags = serializer.read(Tags.class, entity1);
 
-            String lTag = tag.toLowerCase();
-            for (Tag t : tags.getTags()) {
-                String iTag = t.getName().toLowerCase();
-                if (lTag.equals(iTag)) {
-                    tagId = t.getId();
-                    break;
-                }
+        String lTag = tag.toLowerCase();
+        for (Tag t : tags.getTags()) {
+            String iTag = t.getName().toLowerCase();
+            if (lTag.equals(iTag)) {
+                tagId = t.getId();
+                break;
             }
+        }
 
-            if (tagId > 0) {
-                contacts = generateContactsFromEntity(
-                    getEntityFromApiWithQueryParamsIntValue("people.xml", "tag_id", tagId, username, apiKey)
-                );
-            }
-        } catch (Exception e) {
-            System.out.println(e);
+        if (tagId > 0) {
+            contacts = generateContactsFromEntity(
+                getEntityFromApiWithQueryParamsIntValue("people.xml", "tag_id", tagId, username, apiKey)
+            );
         }
 
         return contacts;

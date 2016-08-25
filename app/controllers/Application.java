@@ -15,8 +15,12 @@ public class Application extends Controller {
     }
 
     public static void loadContactsByTag(String tag) {
-        JsonableArrayList<Contact> contacts = ContactsFactory.createFromTag(tag, "joshuapaylaga", "2b67f902fd7566e5c1cfdecc4969aa98");
-        renderJSON(contacts.toJson("contacts"));
+        try {
+            JsonableArrayList<Contact> contacts = ContactsFactory.createFromTag(tag, "joshuapaylaga", "2b67f902fd7566e5c1cfdecc4969aa98");
+            renderJSON(contacts.toJson("contacts"));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     private static String formatObjectvalueString(String str) {
