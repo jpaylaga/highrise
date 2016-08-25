@@ -187,12 +187,6 @@ public class Contact extends Model implements JsonInterface {
         return tags;
     }
 
-    public static List<Contact> findTaggedWith(String tag) {
-        return Contact.find(
-            "select distinct c from Contact c join c.tags as t where t.name = (:tag)"
-        ).bind("tag", tag).fetch();
-    }
-
     public String toJson() {
         String json = "";
         json += "{";
@@ -219,6 +213,20 @@ public class Contact extends Model implements JsonInterface {
         json += "}";
 
         return json;
+    }
+
+    public static List<Contact> findTaggedWith(String tag) {
+        return Contact.find(
+            "select distinct c from Contact c join c.tags as t where t.name = (:tag)"
+        ).bind("tag", tag).fetch();
+    }
+
+    public static boolean hasSame(Contact contact) {
+        int count = Contact.find(
+            "select c from Contact c where c.firstName = (:firstName) and c.lastName = (:lastName)"
+        ).bind("firstName", contact.getFirstName()).bind("lastName", contact.getLastName()).fetch().size();
+
+        return (count > 0) ? true : false;
     }
 
     private String formatObjectvalueString(String str) {

@@ -17,6 +17,11 @@ public class Application extends Controller {
     public static void loadContactsByTag(String tag) {
         try {
             JsonableArrayList<Contact> contacts = ContactsFactory.createFromTag(tag, "joshuapaylaga", "2b67f902fd7566e5c1cfdecc4969aa98");
+            for (Contact contact : contacts) {
+                if (!Contact.hasSame(contact)) {
+                    contact.save();
+                }
+            }
             renderJSON(contacts.toJson("contacts"));
         } catch (Exception e) {
             System.out.println(e);
