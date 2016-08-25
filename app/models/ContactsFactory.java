@@ -13,11 +13,12 @@ import models.jpa.Contact;
 
 import models.xml.*;
 import models.xml.DateFormatTransformer;
+import models.JsonableArrayList;
 
 public class ContactsFactory {
 
-    public static List<Contact> create(String username, String apiKey) {
-        List<Contact> contacts = new ArrayList<Contact>();
+    public static JsonableArrayList<Contact> create(String username, String apiKey) {
+        JsonableArrayList<Contact> contacts = new JsonableArrayList<Contact>();
         try {
             contacts = generateContactsFromEntity(
                 getEntityFromApi("people.xml", username, apiKey)
@@ -29,9 +30,9 @@ public class ContactsFactory {
         return contacts;
     }
 
-    public static List<Contact> createFromTag(String tag, String username, String apiKey) {
+    public static JsonableArrayList<Contact> createFromTag(String tag, String username, String apiKey) {
         int tagId = 0;
-        List<Contact> contacts = new ArrayList<Contact>();
+        JsonableArrayList<Contact> contacts = new JsonableArrayList<Contact>();
 
         // Parse tags XML from highrise
         try {
@@ -94,8 +95,8 @@ public class ContactsFactory {
         return entity;
     }
 
-    private static List<Contact> generateContactsFromEntity(String entity) throws Exception {
-        List<Contact> contacts = new ArrayList<Contact>();
+    private static JsonableArrayList<Contact> generateContactsFromEntity(String entity) throws Exception {
+        JsonableArrayList<Contact> contacts = new JsonableArrayList<Contact>();
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         RegistryMatcher matcher = new RegistryMatcher();
         matcher.bind(Date.class, new DateFormatTransformer(format));

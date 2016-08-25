@@ -5,8 +5,10 @@ import javax.persistence.*;
 
 import play.db.jpa.*;
 
+import models.*;
+
 @Entity
-public class Contact extends Model {
+public class Contact extends Model implements JsonInterface {
 
     private String firstName;
     private String lastName;
@@ -189,5 +191,29 @@ public class Contact extends Model {
         return Contact.find(
             "select distinct c from Contact c join c.tags as t where t.name = (:tag)"
         ).bind("tag", tag).fetch();
+    }
+
+    public String toJson() {
+        String json = "";
+        json += "{";
+        json += "\"firstName\":" + this.formatObjectvalueString(this.getFirstName()) + ",";
+        json += "\"lastName\":" + this.formatObjectvalueString(this.getLastName()) + ",";
+        json += "\"title\":" + this.formatObjectvalueString(this.getTitle()) + ",";
+        json += "\"companyName\":" + this.formatObjectvalueString(this.getCompanyName()) + ",";
+        json += "\"background\":" + this.formatObjectvalueString(this.getBackground()) + ",";
+        json += "\"linkedinUrl\":" + this.formatObjectvalueString(this.getLinkedinUrl()) + ",";
+        json += "\"instantMessengerProtocol\":" + this.formatObjectvalueString(this.getInstantMessengerProtocol()) + ",";
+        json += "\"instantMessengerAddress\":" + this.formatObjectvalueString(this.getInstantMessengerAddress()) + ",";
+        json += "\"emailAddress\":" + this.formatObjectvalueString(this.getEmailAddress()) + ",";
+        json += "\"twitterAccount\":" + this.formatObjectvalueString(this.getTwitterAccount()) + ",";
+        json += "\"address\":" + this.formatObjectvalueString(this.getAddress()) + ",";
+        json += "\"webAddress\":" + this.formatObjectvalueString(this.getWebAddress());
+        json += "}";
+
+        return json;
+    }
+
+    private String formatObjectvalueString(String str) {
+        return (str != null) ? "\"" + str + "\"" : "null";
     }
 }

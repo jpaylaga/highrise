@@ -5,8 +5,10 @@ import javax.persistence.*;
 
 import play.db.jpa.*;
 
+import models.JsonInterface;
+
 @Entity
-public class Tag extends Model implements Comparable<Tag> {
+public class Tag extends Model implements Comparable<Tag>, JsonInterface {
 
     private String name;
 
@@ -28,6 +30,10 @@ public class Tag extends Model implements Comparable<Tag> {
 
     public int compareTo(Tag otherTag) {
         return this.getName().compareTo(otherTag.getName());
+    }
+
+    public String toJson() {
+        return "{\"name\":" + ((this.getName() != null) ? "\"" + this.getName() + "\"" : "null") + "}";
     }
 
     public static Tag findOrCreateByName(String name) {
