@@ -139,7 +139,7 @@ public class JpaTest extends UnitTest {
 
     @Test
     public void getContactByTagsFromXML() {
-        List<Contact> contacts = ContactsFactory.createFromTag("personal", "joshuapaylaga", "2b67f902fd7566e5c1cfdecc4969aa98");
+        List<Contact> contacts = ContactsFactory.createFromTag("PeRsOnAl", "joshuapaylaga", "2b67f902fd7566e5c1cfdecc4969aa98");
         assertEquals(1, contacts.size());
         assertEquals("Kris Ann", contacts.get(0).getFirstName());
         assertEquals("Bachinela", contacts.get(0).getLastName());

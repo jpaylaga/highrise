@@ -38,8 +38,11 @@ public class ContactsFactory {
             String entity1 = getEntityFromApi("tags.xml", username, apiKey);
             Serializer serializer = new Persister();
             Tags tags = serializer.read(Tags.class, entity1);
+
+            String lTag = tag.toLowerCase();
             for (Tag t : tags.getTags()) {
-                if (tag.equals(t.getName())) {
+                String iTag = t.getName().toLowerCase();
+                if (lTag.equals(iTag)) {
                     tagId = t.getId();
                     break;
                 }
@@ -47,7 +50,7 @@ public class ContactsFactory {
 
             if (tagId > 0) {
                 contacts = generateContactsFromEntity(
-                    getEntityFromApi("people.xml?tag_id=" + Integer.toString(tagId), username, apiKey)
+                    getEntityFromApiWithQueryParamsIntValue("people.xml", "tag_id", tagId, username, apiKey)
                 );
             }
         } catch (Exception e) {
@@ -63,6 +66,27 @@ public class ContactsFactory {
         Client client = ClientBuilder.newClient();
         String entity = client.target(apiUrl)
                         .path(path)
+                        .request(MediaType.APPLICATION_XML)
+                        .header("authorization", "Basic " + basicAuth)
+                        .get(String.class);
+
+        return entity;
+    }
+
+    private static String getEntityFromApiWithQueryParamsIntValue(
+        String path,
+        String qVariable,
+        int    qValue,
+        String username,
+        String apiKey
+    ) throws Exception {
+
+        String basicAuth = Base64.getEncoder().encodeToString((apiKey + ":x").getBytes("utf-8"));
+        String apiUrl = "https://" + username + ".highrisehq.com";
+        Client client = ClientBuilder.newClient();
+        String entity = client.target(apiUrl)
+                        .path(path)
+                        .queryParam(qVariable, qValue)
                         .request(MediaType.APPLICATION_XML)
                         .header("authorization", "Basic " + basicAuth)
                         .get(String.class);
