@@ -213,6 +213,14 @@ public class Contact extends Model implements JsonInterface {
         return json;
     }
 
+    public String toJson(String parent) {
+        String json = "{\"" + parent + "\":";
+        json += this.toJson();
+        json += "}";
+
+        return json;
+    }
+
     private String formatObjectvalueString(String str) {
         return (str != null) ? "\"" + str + "\"" : "null";
     }

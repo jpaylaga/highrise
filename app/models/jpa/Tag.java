@@ -36,6 +36,14 @@ public class Tag extends Model implements Comparable<Tag>, JsonInterface {
         return "{\"name\":" + ((this.getName() != null) ? "\"" + this.getName() + "\"" : "null") + "}";
     }
 
+    public String toJson(String parent) {
+        String json = "{\"" + parent + "\":";
+        json += this.toJson();
+        json += "}";
+
+        return json;
+    }
+
     public static Tag findOrCreateByName(String name) {
         Tag tag = Tag.find("byName", name).first();
         if(tag == null) {

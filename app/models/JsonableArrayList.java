@@ -17,4 +17,12 @@ public class JsonableArrayList<T extends JsonInterface> extends ArrayList<T> imp
 
         return json;
     }
+
+    public String toJson(String parent) {
+        String json = "{\"" + parent + "\":";
+        json += this.toJson();
+        json += "}";
+
+        return json;
+    }
 }
