@@ -3,6 +3,42 @@
 
 <div class="row">
   <div class="col-md-12">
-    <p class="lead">This is an example</p>
+    <div class="page-header">
+      <h1>Retrieve Contacts <small>from HighRise and store to database.</small></h1>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <form action="#" method="post" id="tag-form">
+      <div class="form-group">
+        <label for="tag">Enter tag to retrieve related contacts</label>
+        <input type="text" class="form-control" id="tag" placeholder="Enter tag">
+      </div>
+      <button type="submit" class="btn btn-default">Retrieve Now</button>
+    </form>
+  </div>
+  <div class="col-md-12 space">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>Title</th>
+          <th>Company name</th>
+          <th>Background</th>
+          <th>LinkedIn</th>
+          <th>Instant Messenger</th>
+          <th>Email</th>
+          <th>Twitter</th>
+          <th>Address</th>
+          <th>Website</th>
+        </tr>
+      </thead>
+      <tbody id="tag-results"></tbody>
+    </table>
   </div>
 </div>
+
+#{set 'moreScripts'}
+  <script>var targetUrl = "@{Application.loadContactsByTag()}"</script>
+  #{script 'load_contacts_by_tag.js' /}
+#{/set}
