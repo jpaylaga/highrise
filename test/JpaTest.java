@@ -136,4 +136,12 @@ public class JpaTest extends UnitTest {
         assertEquals(1, krisAnn.getTags().size());
         assertEquals("personal", krisAnn.getTagsAsList().get(0).getName());
     }
+
+    @Test
+    public void getContactByTagsFromXML() {
+        List<Contact> contacts = ContactsFactory.createFromTag("personal", "joshuapaylaga", "2b67f902fd7566e5c1cfdecc4969aa98");
+        assertEquals(1, contacts.size());
+        assertEquals("Kris Ann", contacts.get(0).getFirstName());
+        assertEquals("Bachinela", contacts.get(0).getLastName());
+    }
 }

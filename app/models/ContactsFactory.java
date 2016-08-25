@@ -17,34 +17,68 @@ import models.xml.DateFormatTransformer;
 public class ContactsFactory {
 
     public static List<Contact> create(String username, String apiKey) {
-        People people = null;
         List<Contact> contacts = new ArrayList<Contact>();
-
-        // Parse XML from highrise API
         try {
-            String basicAuth = Base64.getEncoder().encodeToString((apiKey + ":x").getBytes("utf-8"));
-            String apiUrl = "https://" + username + ".highrisehq.com";
-            Client client = ClientBuilder.newClient();
-            String entity = client.target(apiUrl)
-                            .path("people.xml")
-                            .request(MediaType.APPLICATION_XML)
-                            .header("authorization", "Basic " + basicAuth)
-                            .get(String.class);
-
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-            RegistryMatcher matcher = new RegistryMatcher();
-            matcher.bind(Date.class, new DateFormatTransformer(format));
-            Serializer serializer = new Persister(matcher);
-            people = serializer.read(People.class, entity);
+            contacts = generateContactsFromEntity(
+                getEntityFromApi("people.xml", username, apiKey)
+            );
         } catch (Exception e) {
             System.out.println(e);
         }
 
-        // Put parsed XML to contacts
-        if (people != null) {
-            for (Person person : people.getPersons()) {
-                contacts.add(parsePersonToContact(person));
+        return contacts;
+    }
+
+    public static List<Contact> createFromTag(String tag, String username, String apiKey) {
+        int tagId = 0;
+        List<Contact> contacts = new ArrayList<Contact>();
+
+        // Parse tags XML from highrise
+        try {
+            String entity1 = getEntityFromApi("tags.xml", username, apiKey);
+            Serializer serializer = new Persister();
+            Tags tags = serializer.read(Tags.class, entity1);
+            for (Tag t : tags.getTags()) {
+                if (tag.equals(t.getName())) {
+                    tagId = t.getId();
+                    break;
+                }
             }
+
+            if (tagId > 0) {
+                contacts = generateContactsFromEntity(
+                    getEntityFromApi("people.xml?tag_id=" + Integer.toString(tagId), username, apiKey)
+                );
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return contacts;
+    }
+
+    private static String getEntityFromApi(String path, String username, String apiKey) throws Exception {
+        String basicAuth = Base64.getEncoder().encodeToString((apiKey + ":x").getBytes("utf-8"));
+        String apiUrl = "https://" + username + ".highrisehq.com";
+        Client client = ClientBuilder.newClient();
+        String entity = client.target(apiUrl)
+                        .path(path)
+                        .request(MediaType.APPLICATION_XML)
+                        .header("authorization", "Basic " + basicAuth)
+                        .get(String.class);
+
+        return entity;
+    }
+
+    private static List<Contact> generateContactsFromEntity(String entity) throws Exception {
+        List<Contact> contacts = new ArrayList<Contact>();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        RegistryMatcher matcher = new RegistryMatcher();
+        matcher.bind(Date.class, new DateFormatTransformer(format));
+        Serializer serializer = new Persister(matcher);
+        People people = serializer.read(People.class, entity);
+        for (Person person : people.getPersons()) {
+            contacts.add(parsePersonToContact(person));
         }
 
         return contacts;
