@@ -2,11 +2,22 @@ function nullString(str) {
   return (str == null) ? "None" : str;
 }
 
+function disableForm() {
+  $("#tag").prop("disabled", true);
+  $("#tag-submit-btn").prop("disabled", true);
+}
+
+function enableForm() {
+  $("#tag").prop("disabled", false);
+  $("#tag-submit-btn").prop("disabled", false);
+}
+
 $(document).ready(function() {
   $("#tag-form").submit(function(e) {
     e.preventDefault();
 
     var tagname = $("#tag").val();
+    disableForm();
     if (typeof targetUrl == "string") {
       $.post(targetUrl, { "tag": tagname }, function( data ) {
         var tableHTML = "";
@@ -26,6 +37,7 @@ $(document).ready(function() {
           tableHTML += "</tr>";
         }
         $("#tag-results").html(tableHTML);
+        enableForm();
       }, "json");
     }
   });
