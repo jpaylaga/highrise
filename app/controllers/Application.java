@@ -32,6 +32,24 @@ public class Application extends Controller {
         }
     }
 
+    public static void loadContactsFromDatabase() {
+        List<Contact> rawContacts = Contact.all().fetch();
+        JsonableArrayList<Contact> jsonContacts = new JsonableArrayList<Contact>();
+        for (Contact c : rawContacts) {
+            jsonContacts.add(c);
+        }
+        renderJSON(jsonContacts.toJson("contacts"));
+    }
+
+    public static void loadContactsFromDatabaseByTag(String tag) {
+        List<Contact> rawContacts = Contact.findTaggedWith(tag);
+        JsonableArrayList<Contact> jsonContacts = new JsonableArrayList<Contact>();
+        for (Contact c : rawContacts) {
+            jsonContacts.add(c);
+        }
+        renderJSON(jsonContacts.toJson("contacts"));
+    }
+
     private static String formatObjectvalueString(String str) {
         return (str != null) ? "\"" + str + "\"" : "null";
     }

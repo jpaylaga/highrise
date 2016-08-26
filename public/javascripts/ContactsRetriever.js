@@ -1,15 +1,15 @@
 var ContactsRetriever = {
 
-  'retrievePageUrl'     : (typeof retrievePageUrl === 'string')      ? retrievePageUrl      : false,
-  'displayPageUrl'      : (typeof displayPageUrl === 'string')       ? displayPageUrl       : false,
-  'loadContactsUrl'     : (typeof loadContactsUrl === 'string')      ? loadContactsUrl      : false,
-  'loadContactsByTagUrl': (typeof loadContactsByTagUrl === 'string') ? loadContactsByTagUrl : false,
+  'retrievePageUrl'            : (typeof retrievePageUrl === 'string')             ? retrievePageUrl             : false,
+  'displayPageUrl'             : (typeof displayPageUrl === 'string')              ? displayPageUrl              : false,
+  'loadContactsByTagUrl'       : (typeof loadContactsByTagUrl === 'string')        ? loadContactsByTagUrl        : false,
+  'loadContactsFromDatabaseUrl': (typeof loadContactsFromDatabaseUrl === 'string') ? loadContactsFromDatabaseUrl : false,
 
-  'loadContacts': function(cb, errorCb) {
-    this.postCall(this.loadContactsUrl, {}, cb);
+  'loadContactsFromDatabase': function(cb) {
+    this.postCall(this.loadContactsFromDatabaseUrl, {}, cb);
   },
 
-  'loadContactsByTag': function(tag, cb, errorCb) {
+  'loadContactsByTag': function(tag, cb) {
     this.postCall(this.loadContactsByTagUrl, {"tag": tag}, cb);
   },
 
