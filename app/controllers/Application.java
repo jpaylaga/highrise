@@ -15,7 +15,8 @@ public class Application extends Controller {
     }
 
     public static void display() {
-        render();
+        List<Tag> tags = Tag.all().fetch();
+        render(tags);
     }
 
     public static void loadContactsByTag(String tag) {

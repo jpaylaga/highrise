@@ -9,6 +9,21 @@
   </div>
 </div>
 <div class="row">
+  <div class="col-md-12">
+    <form action="#" method="post" id="display-form">
+      <div class="form-group">
+        <label for="tag">Display contacts by its tag</label>
+        <select class="form-control" id="tag">
+          <option value="0">All contacts</option>
+          #{list items:tags, as:'tag'}
+          <option value="${tag.getName()}">${tag.getName()}</option>
+          #{/list}
+        </select>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row">
   <div class="col-md-12 space">
     <table class="table table-striped">
       <thead>
@@ -65,8 +80,27 @@ function loadAllContacts() {
   });
 }
 
+function loadContactsByTag(tagName) {
+  ContactsRetriever.loadContactsFromDatabaseByTag(tagName, function( data ) {
+    $("#display-results").html(displayTableFormat(data));
+  });
+}
+
 $(document).ready(function() {
   loadAllContacts();
+  $("#tag").on("change", function() {
+    $("#display-form").submit();
+  });
+  $("#display-form").on("submit", function(e) {
+    e.preventDefault();
+
+    var tagName = $("#tag").val();
+    if (tagName == 0) {
+      loadAllContacts();
+    } else {
+      loadContactsByTag(tagName);
+    }
+  });
 });
 
 </script>
