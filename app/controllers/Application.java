@@ -14,6 +14,10 @@ public class Application extends Controller {
         render();
     }
 
+    public static void display() {
+        render();
+    }
+
     public static void loadContactsByTag(String tag) {
         try {
             JsonableArrayList<Contact> contacts = ContactsFactory.createFromTag(tag, "joshuapaylaga", "2b67f902fd7566e5c1cfdecc4969aa98");

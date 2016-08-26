@@ -1,7 +1,9 @@
 var ContactsRetriever = {
 
-  'loadContactsUrl'     : (typeof loadContactsUrl === 'string') ? loadContactsUrl : '',
-  'loadContactsByTagUrl': (typeof loadContactsByTagUrl === 'string') ? loadContactsByTagUrl : '',
+  'retrievePageUrl'     : (typeof retrievePageUrl === 'string')      ? retrievePageUrl      : false,
+  'displayPageUrl'      : (typeof displayPageUrl === 'string')       ? displayPageUrl       : false,
+  'loadContactsUrl'     : (typeof loadContactsUrl === 'string')      ? loadContactsUrl      : false,
+  'loadContactsByTagUrl': (typeof loadContactsByTagUrl === 'string') ? loadContactsByTagUrl : false,
 
   'loadContacts': function(cb, errorCb) {
     this.postCall(this.loadContactsUrl, {}, cb);
@@ -17,5 +19,13 @@ var ContactsRetriever = {
         cb( data );
       }
     }, "json");
+  },
+
+  'redirectToDisplayPage': function(delay) {
+    if (this.displayPageUrl) {
+      setTimeout(function() {
+        window.location.href = this.displayPageUrl;
+      }, (delay) ? delay : 0);
+    }
   }
 };

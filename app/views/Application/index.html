@@ -1,5 +1,5 @@
 #{extends 'main.html' /}
-#{set title:'Home' /}
+#{set title:'Retrieve Contacts' /}
 
 <div class="row">
   <div class="col-md-12">
@@ -18,7 +18,7 @@
   </div>
   <div class="col-md-12 space">
     <div class="alert alert-success hidden">
-      <strong>Success!</strong> You have retrieved <span id="tag-success">0</span> contact(s) from highrise and saved them to database. View retrieved contacts here.
+      <strong>Success!</strong> You have retrieved <span id="tag-success">0</span> contact(s) from highrise and saved them to database. View retrieved contacts <a href="@{Application.display()}">here</a>.
     </div>
     <div class="alert alert-danger hidden">
       <strong>Error!</strong> <span id="tag-error">Something went wrong.</span>
@@ -51,6 +51,7 @@
             if (data.contacts.length > 0) {
               $(".alert-success").removeClass("hidden");
               $("#tag-success").html(data.contacts.length);
+              ContactsRetriever.redirectToDisplayPage(1000);
             } else {
               $(".alert-danger").removeClass("hidden");
               $("#tag-error").html("There are no contacts on tag \"" + tagname + "\".");
