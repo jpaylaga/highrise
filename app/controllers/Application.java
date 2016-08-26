@@ -20,8 +20,12 @@ public class Application extends Controller {
     }
 
     public static void loadContactsByTag(String tag) {
+
+        String username = Play.configuration.getProperty("highrise.username");
+        String apikey   = Play.configuration.getProperty("highrise.apikey");
+
         try {
-            JsonableArrayList<Contact> contacts = ContactsFactory.createFromTag(tag, "joshuapaylaga", "2b67f902fd7566e5c1cfdecc4969aa98");
+            JsonableArrayList<Contact> contacts = ContactsFactory.createFromTag(tag, username, apikey);
             for (Contact contact : contacts) {
                 if (!Contact.hasSame(contact)) {
                     contact.save();
